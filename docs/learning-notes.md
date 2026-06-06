@@ -16,3 +16,23 @@
    - Waits for 1 millisecond for a keyboard input.
    - Used to keep updating the video feed continuously.
    - 27 represents the ESC key, which is used to exit the program.
+
+6. OpenCV uses BGR color format.
+
+7. Horizontal Line:
+   Y remains constant.
+
+8. Vertical Line:
+   X remains constant.
+
+9. Rectangle:
+   Requires top-left and bottom-right coordinates.
+
+10. Circle:
+   Requires center coordinates and radius.
+
+11. putText():
+   Used to display text on images.
+
+12. OpenCV directly modifies the frame before displaying it.
+
