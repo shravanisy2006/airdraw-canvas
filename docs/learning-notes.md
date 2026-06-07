@@ -34,5 +34,9 @@
 11. putText():
    Used to display text on images.
 
-12. OpenCV directly modifies the frame before displaying it.
+12. Mediapipe allows to use real time tracking for gesture recognition or face recognition.
+
+13. For hand identification there are 21 landmarks.
+
+14. 
 
