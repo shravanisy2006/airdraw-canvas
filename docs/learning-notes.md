@@ -38,5 +38,12 @@
 
 13. For hand identification there are 21 landmarks.
 
-14. 
+14. For the point to follow the index finger :
+      - identify the frame shape like the height , width and the channels
+      - similarly identify the index_finger points
+      - to access the frame shape its in tuple so given by names like height , width and channels they can be accessed
+      - multiply both for coordinates
+      - a point with the help of cv2.circle() will follow your fingerpoints
+
+15. 
 
