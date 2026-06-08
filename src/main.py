@@ -21,6 +21,8 @@ prev_y = None
 
 canvas = None
 
+current_colour = (0,255,0)
+
 while True:
 
     ret, frame = cam.read()
@@ -52,24 +54,42 @@ while True:
             x = int(index_finger.x *width)
             y = int(index_finger.y * height)
 
+            #SELECTION MODE
 
             if index_up and middle_up:
 
-                prev_x = x
-                prev_y = y
+                prev_x = None
+                prev_y = None
 
-                cv2.putText(frame,"Selection Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,(0,255,255),2)
+                cv2.putText(frame,"Selection Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,current_colour,2)
+
+                if y < 30:
+
+                    if x < 50:
+                        current_colour = (0,0,255)
+
+                    elif x < 100:
+                        current_colour = (0,255,0)
+
+                    elif x < 150:
+                        current_colour = (255,0,0)
+
+                    elif x < 200:
+                        canvas = frame.copy() * 0
+
+                cv2.putText(frame,"Selection Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,current_colour,2)
+            
+            #DRAWING MODE
 
             elif index_up:
-                
-                cv2.putText(frame,"Drawing Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,(0,255,255),2)
+
+                cv2.putText(frame,"Drawing Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,current_colour,2)
                 
                 if prev_x is not None and prev_y is not None:
-                    cv2.line(canvas, (prev_x, prev_y), (x,y) , (0, 255, 0), 3)
+                    cv2.line(canvas, (prev_x, prev_y), (x,y) , current_colour , 3)
 
                 prev_x = x
                 prev_y = y
-
 
             cv2.circle(frame, (x, y), 8, (0,255,0), -1)                
 
@@ -87,6 +107,11 @@ while True:
     cv2.rectangle(frame,(50,0),(100,30),(0,255,0),-1)
     cv2.rectangle(frame,(100,0),(150,30),(255,0,0),-1)
     cv2.rectangle(frame, (150,0),(200,30),(255,255,255),-1)
+
+    cv2.putText(frame,"R",(15,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
+    cv2.putText(frame,"G",(65,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,0),1)
+    cv2.putText(frame,"B",(115,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
+    cv2.putText(frame,"C",(165,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,0),1)
 
     cv2.imshow("webcam",frame)
 
