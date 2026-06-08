@@ -45,5 +45,40 @@
       - multiply both for coordinates
       - a point with the help of cv2.circle() will follow your fingerpoints
 
-15. 
+15. MediaPipe returns coordinates in normalized form.
+    - Values are between 0 and 1.
+    - They are not actual screen coordinates.
+
+16. To convert normalized coordinates into actual screen coordinates:
+
+    x = int(index_finger.x * width)
+    y = int(index_finger.y * height)
+
+17. Landmark 8 represents the index finger tip.
+
+18. A green dot can be made to follow the index finger using:
+    cv2.circle(frame, (x,y), radius, colour, thickness)
+
+19. If we draw directly on the frame, the drawing disappears because a new frame is generated continuously.
+
+20. To make the drawing permanent, create a separate canvas:
+
+    canvas = frame.copy() * 0
+
+21. To combine the webcam feed and canvas:
+
+    frame = cv2.add(frame, canvas)
+
+22. Previous coordinates are required to draw continuous lines.
+
+23. prev_x and prev_y store the previous position of the finger.
+
+24. cv2.line(canvas, (prev_x, prev_y), (x,y), colour, thickness)
+    draws a line between the previous and current finger positions.
+
+25. MediaPipe landmarks used:
+    - 8 : Index Finger Tip
+    - 6 : Index Finger Joint
+    - 12 : Middle Finger Tip
+    - 10 : Middle Finger Joint
 
