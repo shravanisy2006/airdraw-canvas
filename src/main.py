@@ -41,7 +41,8 @@ while True:
 
             x = int(index_finger.x *width)
             y = int(index_finger.y * height)
-                
+
+            cv2.circle(frame, (x, y), 8, (0,255,0), -1)                
             cv2.line(canvas, (prev_x, prev_y), (x,y) , (0, 255, 0), 3)
 
             prev_x = x
