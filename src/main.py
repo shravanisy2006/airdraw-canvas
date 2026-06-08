@@ -48,7 +48,16 @@ while True:
             index_up = index_finger_tip.y < index_finger_joint.y
             print(index_up)
 
-            print("-"*3)
+            middle_finger_tip = hand_landmarks.landmark[12]
+            middle_finger_joint = hand_landmarks.landmark[10]
+
+            middle_up = middle_finger_tip.y < middle_finger_joint.y
+
+            if index_up and middle_up:
+                print("Selection Mode")
+
+            elif index_up:
+                print("Drawing mode.")
 
             x = int(index_finger.x *width)
             y = int(index_finger.y * height)
