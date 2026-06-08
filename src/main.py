@@ -13,8 +13,8 @@ hands = mp_hands.Hands(
 #Open camera
 cam = cv2.VideoCapture(0)
 
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 240) 
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 prev_x = None
 prev_y = None
@@ -24,6 +24,8 @@ canvas = None
 current_colour = (0,255,0)
 
 key = 0
+
+eraser = False
 
 while True:
 
@@ -69,29 +71,49 @@ while True:
 
                     if x < 50:
                         current_colour = (0,0,255)
+                        eraser = False
 
                     elif x < 100:
                         current_colour = (0,255,0)
+                        eraser = False
 
                     elif x < 150:
                         current_colour = (255,0,0)
+                        eraser = False
 
                     elif x < 200:
-                        canvas = frame.copy() * 0
+                        current_colour = (0,0,0)   # Eraser
+                        eraser = True
 
-                cv2.putText(frame,"Selection Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,current_colour,2)
+                    elif x < 250:
+                        canvas = frame.copy() * 0  # Clear
             
             #DRAWING MODE
 
             elif index_up:
 
                 cv2.putText(frame,"Drawing Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,current_colour,2)
-                
-                if prev_x is not None and prev_y is not None:
-                    cv2.line(canvas, (prev_x, prev_y), (x,y) , current_colour , 3)
 
-                prev_x = x
-                prev_y = y
+                if prev_x is not None and prev_y is not None:
+
+                    smooth_x = int((prev_x + x) / 2)
+                    smooth_y = int((prev_y + y) / 2)
+
+                    if eraser:
+                        cv2.line(canvas, (prev_x, prev_y),
+                                (smooth_x, smooth_y),
+                                (0,0,0), 20)
+                    else:
+                        cv2.line(canvas, (prev_x, prev_y),
+                                (smooth_x, smooth_y),
+                                current_colour, 3)
+
+                    prev_x = smooth_x
+                    prev_y = smooth_y
+
+                else:
+                    prev_x = x
+                    prev_y = y
 
             cv2.circle(frame, (x, y), 8, current_colour , -1)                
 
@@ -101,30 +123,29 @@ while True:
                 mp_hands.HAND_CONNECTIONS
             )
 
-            cv2.putText(frame,"Air Canvas",(50,50),cv2.FONT_HERSHEY_COMPLEX,1.5,(0,0,255),2)
-
     frame = cv2.add(frame , canvas)
 
     cv2.rectangle(frame,(0,0),(50,30),(0,0,255),-1)
     cv2.rectangle(frame,(50,0),(100,30),(0,255,0),-1)
     cv2.rectangle(frame,(100,0),(150,30),(255,0,0),-1)
     cv2.rectangle(frame, (150,0),(200,30),(255,255,255),-1)
+    cv2.rectangle(frame,(200,0),(250,30),(0,0,0),-1)
 
     cv2.putText(frame,"R",(15,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
     cv2.putText(frame,"G",(65,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,0),1)
     cv2.putText(frame,"B",(115,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
-    cv2.putText(frame,"C",(165,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,0),1)
+    cv2.putText(frame,"E",(165,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,0),1)
+    cv2.putText(frame,"C",(215,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
 
     cv2.imshow("webcam",frame)
 
     key = cv2.waitKey(1) & 0xFF
     if key == ord('s'):
-        cv2.imwrite("drawing.png,canvas")
-        print("Deawing Sved")
+        cv2.imwrite("drawing.png",canvas)
+        print("Drawing Saved")
 
     elif key == 27:
         break;
 
 cam.release()
 cv2.destroyAllWindows()
-
