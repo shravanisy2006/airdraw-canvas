@@ -58,13 +58,14 @@ while True:
                 prev_x = x
                 prev_y = y
 
-
-
                 cv2.putText(frame,"Selection Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,(0,255,255),2)
 
             elif index_up:
+                
                 cv2.putText(frame,"Drawing Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,(0,255,255),2)
-                cv2.line(canvas, (prev_x, prev_y), (x,y) , (0, 255, 0), 3)
+                
+                if prev_x is not None and prev_y is not None:
+                    cv2.line(canvas, (prev_x, prev_y), (x,y) , (0, 255, 0), 3)
 
                 prev_x = x
                 prev_y = y
@@ -82,7 +83,7 @@ while True:
 
     frame = cv2.add(frame , canvas)
 
-    cv2.rectangle(frame,(0,0),(50,30),current_color=(0,0,255),-1)
+    cv2.rectangle(frame,(0,0),(50,30),(0,0,255),-1)
     cv2.rectangle(frame,(50,0),(100,30),(0,255,0),-1)
     cv2.rectangle(frame,(100,0),(150,30),(255,0,0),-1)
     cv2.rectangle(frame, (150,0),(200,30),(255,255,255),-1)
