@@ -82,3 +82,51 @@
     - 12 : Middle Finger Tip
     - 10 : Middle Finger Joint
 
+26. Finger Up Detection:
+    index_tip.y < index_joint.y
+
+    If true, the index finger is raised.
+
+27. Drawing Mode:
+    - Only index finger is up.
+    - User can draw on the canvas.
+
+28. Selection Mode:
+    - Index finger and middle finger are up.
+    - Used for selecting tools and colours.
+
+29. To prevent unwanted lines while switching modes:
+    
+    prev_x = None
+    prev_y = None
+
+30. A toolbar can be created using rectangles:
+
+    cv2.rectangle()
+
+31. Colour options implemented:
+    - Red
+    - Green
+    - Blue
+
+32. Clear option:
+    canvas = frame.copy() * 0
+
+33. current_colour variable stores the currently selected drawing colour.
+
+34. The same current_colour can be used for:
+    - Drawing lines
+    - Fingertip indicator
+    - Mode text
+
+35. cv2.putText() can be used to display:
+    - Air Canvas
+    - Drawing Mode
+    - Selection Mode
+
+36. cv2.waitKey() can also be used to detect keyboard inputs.
+
+37. To save the drawing:
+
+    cv2.imwrite("drawing.png", canvas)
+
