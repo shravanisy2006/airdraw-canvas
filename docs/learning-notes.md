@@ -130,9 +130,58 @@
 
     cv2.imwrite("drawing.png", canvas)
 
-## PROBLEMS FACED ##
-- Hand Detection
-- Hand Skeleton
-- Fingertip Tracking
-- Air Drawing
-- Persistent Canvas
+38. Drawing on the webcam frame directly causes the drawing to disappear because every frame is refreshed continuously.
+
+39. To preserve drawings, a separate canvas is required.
+
+40. canvas = frame.copy() * 0
+    creates a black canvas of the same size as the webcam frame.
+
+41. cv2.add(frame, canvas)
+    combines the webcam feed and the drawing canvas.
+
+42. To draw continuous lines, the previous finger coordinates must be stored.
+
+43. prev_x and prev_y are used to store the previous position of the index finger.
+
+44. If previous coordinates are not available, drawing should not start immediately.
+
+45. Smoothing can be applied to reduce shaky drawings.
+
+46. Smoothing is performed by averaging the previous and current coordinates.
+
+47. Example:
+
+    smooth_x = int((prev_x + x) / 2)
+    smooth_y = int((prev_y + y) / 2)
+
+48. Gesture Recognition:
+    - Index finger up = Drawing Mode
+    - Index finger + Middle finger up = Selection Mode
+
+49. Selection Mode is used to select tools without drawing.
+
+50. A toolbar can be created using coloured rectangles.
+
+51. The toolbar implemented contains:
+    - Red
+    - Green
+    - Blue
+    - Eraser
+    - Clear
+
+52. The currently selected colour is stored in current_colour.
+
+53. The eraser works by drawing black lines on the black canvas.
+
+54. Increasing eraser thickness improves the erasing experience.
+
+55. Drawings can be saved using:
+
+    cv2.imwrite("drawing.png", canvas)
+
+56. Keyboard Controls:
+    - S : Save Drawing
+    - ESC : Exit Application
+
+
