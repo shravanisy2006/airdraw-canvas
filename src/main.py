@@ -39,6 +39,17 @@ while True:
         for hand_landmarks in results.multi_hand_landmarks:
             index_finger = hand_landmarks.landmark[8]
 
+            index_finger_tip = hand_landmarks.landmark[8]
+            index_finger_joint = hand_landmarks.landmark[6]
+
+            print(index_finger_tip.y)
+            print(index_finger_joint.y)
+            
+            index_up = index_finger_tip.y < index_finger_joint.y
+            print(index_up)
+
+            print("-"*3)
+
             x = int(index_finger.x *width)
             y = int(index_finger.y * height)
 
