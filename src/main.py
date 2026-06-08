@@ -4,14 +4,29 @@ import mediapipe as mp
 mp_hands = mp.solutions.hands
 mp_draw = mp.solutions.drawing_utils
 
-hands = mp_hands.Hands()
+hands = mp_hands.Hands(
+    max_num_hands=1,
+    min_detection_confidence=0.7,
+    min_tracking_confidence=0.7
+)
 
 #Open camera
 cam = cv2.VideoCapture(0)
 
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 240) 
+
+prev_x = 0
+prev_y = 0
+
+canvas = None
+
 while True:
 
     ret, frame = cam.read()
+
+    if canvas is None:
+        canvas = frame.copy() * 0
 
     height , width , channels = frame.shape
 
@@ -26,8 +41,11 @@ while True:
 
             x = int(index_finger.x *width)
             y = int(index_finger.y * height)
-            
-            cv2.circle(frame, (x, y), 10, (0, 255, 0), -1)
+                
+            cv2.line(canvas, (prev_x, prev_y), (x,y) , (0, 255, 0), 3)
+
+            prev_x = x
+            prev_y = y
 
             mp_draw.draw_landmarks(
                 frame,
@@ -37,10 +55,12 @@ while True:
 
             cv2.putText(frame,"Air Canvas",(50,50),cv2.FONT_HERSHEY_COMPLEX,1.5,(0,0,255),2)
 
+    frame = cv2.add(frame , canvas)
+
     cv2.imshow("webcam",frame)
+
     if cv2.waitKey(1) == 27:
         break
 
 cam.release()
 cv2.destroyAllWindows()
-
