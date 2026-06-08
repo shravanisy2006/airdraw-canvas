@@ -23,6 +23,8 @@ canvas = None
 
 current_colour = (0,255,0)
 
+key = 0
+
 while True:
 
     ret, frame = cam.read()
@@ -91,7 +93,7 @@ while True:
                 prev_x = x
                 prev_y = y
 
-            cv2.circle(frame, (x, y), 8, (0,255,0), -1)                
+            cv2.circle(frame, (x, y), 8, current_colour , -1)                
 
             mp_draw.draw_landmarks(
                 frame,
@@ -115,8 +117,14 @@ while True:
 
     cv2.imshow("webcam",frame)
 
-    if cv2.waitKey(1) == 27:
-        break
+    key = cv2.waitKey(1) & 0xFF
+    if key == ord('s'):
+        cv2.imwrite("drawing.png,canvas")
+        print("Deawing Sved")
+
+    elif key == 27:
+        break;
 
 cam.release()
 cv2.destroyAllWindows()
+
