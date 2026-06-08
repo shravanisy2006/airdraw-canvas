@@ -33,11 +33,11 @@ Air Canvas is a Computer Vision project that allows users to draw in the air usi
 
 ## Hand Detection & Selection Mode
 
-![Selection Mode](assets/screenshots/selection_mode and drawing_mode.png)
+![SelectionMode](assets/screenshots/selection_mode_drawing_mode.png)
 
 ## Drawing Mode
 
-![Drawing Mode](assets/screenshots/Drawing mode.png)
+![DrawingMode](assets/screenshots/Drawingmode.png)
 
 ## Toolbar & Tools
 
