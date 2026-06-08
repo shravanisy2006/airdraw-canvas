@@ -41,32 +41,34 @@ while True:
 
             index_finger_tip = hand_landmarks.landmark[8]
             index_finger_joint = hand_landmarks.landmark[6]
-
-            print(index_finger_tip.y)
-            print(index_finger_joint.y)
             
             index_up = index_finger_tip.y < index_finger_joint.y
-            print(index_up)
 
             middle_finger_tip = hand_landmarks.landmark[12]
             middle_finger_joint = hand_landmarks.landmark[10]
 
             middle_up = middle_finger_tip.y < middle_finger_joint.y
 
-            if index_up and middle_up:
-                print("Selection Mode")
-
-            elif index_up:
-                print("Drawing mode.")
-
             x = int(index_finger.x *width)
             y = int(index_finger.y * height)
 
-            cv2.circle(frame, (x, y), 8, (0,255,0), -1)                
-            cv2.line(canvas, (prev_x, prev_y), (x,y) , (0, 255, 0), 3)
 
-            prev_x = x
-            prev_y = y
+            if index_up and middle_up:
+
+                prev_x = 0
+                prev_y = 0
+
+                cv2.putText(frame,"Selection Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,(0,255,255),2)
+
+            elif index_up:
+                cv2.putText(frame,"Drawing Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,(0,255,255),2)
+                cv2.line(canvas, (prev_x, prev_y), (x,y) , (0, 255, 0), 3)
+
+                prev_x = x
+                prev_y = y
+
+
+            cv2.circle(frame, (x, y), 8, (0,255,0), -1)                
 
             mp_draw.draw_landmarks(
                 frame,
