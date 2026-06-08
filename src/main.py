@@ -16,8 +16,8 @@ cam = cv2.VideoCapture(0)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 240) 
 
-prev_x = 0
-prev_y = 0
+prev_x = None
+prev_y = None
 
 canvas = None
 
@@ -55,8 +55,10 @@ while True:
 
             if index_up and middle_up:
 
-                prev_x = 0
-                prev_y = 0
+                prev_x = x
+                prev_y = y
+
+
 
                 cv2.putText(frame,"Selection Mode",(10,80),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.7,(0,255,255),2)
 
@@ -79,6 +81,11 @@ while True:
             cv2.putText(frame,"Air Canvas",(50,50),cv2.FONT_HERSHEY_COMPLEX,1.5,(0,0,255),2)
 
     frame = cv2.add(frame , canvas)
+
+    cv2.rectangle(frame,(0,0),(50,30),current_color=(0,0,255),-1)
+    cv2.rectangle(frame,(50,0),(100,30),(0,255,0),-1)
+    cv2.rectangle(frame,(100,0),(150,30),(255,0,0),-1)
+    cv2.rectangle(frame, (150,0),(200,30),(255,255,255),-1)
 
     cv2.imshow("webcam",frame)
 
