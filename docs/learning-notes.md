@@ -130,3 +130,9 @@
 
     cv2.imwrite("drawing.png", canvas)
 
+## PROBLEMS FACED ##
+- Hand Detection
+- Hand Skeleton
+- Fingertip Tracking
+- Air Drawing
+- Persistent Canvas
